@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |Grv/L1| LCmd |AltShf|  L2  | LAlt |                                       |  Up  | Down |   [  |   ]  | ~L1  |
+ *   |Grv/L1| LCmd |AltShf|Macro2| LAlt |                                       |  Up  | Down |   [  |   ]  | ~L1  |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
@@ -40,11 +40,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_EQL,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   RESET,
-        KC_DELT,        KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   LT(MDIA, KC_NO),
-        KC_LCTL,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
-        LT(SYMB,KC_GRV),KC_LGUI,      LALT(KC_LSFT),  KC_TRNS,KC_LALT,
+        KC_EQL,         KC_1,         KC_2,           KC_3, KC_4,   KC_5,   RESET,
+        KC_DELT,        KC_Q,         KC_W,           KC_E, KC_R,   KC_T,   LT(MDIA, KC_NO),
+        KC_LCTL,        KC_A,         KC_S,           KC_D, KC_F,   KC_G,
+        KC_LSFT,        KC_Z,         KC_X,           KC_C, KC_V,   KC_B,   ALL_T(KC_NO),
+        LT(SYMB,KC_GRV),KC_LGUI,      LALT(KC_LSFT),  M(2), KC_LALT,
                                               ALT_T(KC_APP),  KC_LGUI,
                                                               KC_HOME,
                                                KC_SPC,KC_TAB,KC_END,
@@ -159,6 +159,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     case 1:
       if (record->event.pressed) { // For resetting EEPROM
         eeconfig_init();
+      }
+      break;
+    case 2:
+      if (record->event.pressed) {
+        return MACRO(D(LALT), T(GRAVE), U(LALT), END);
       }
       break;
   }
